@@ -29,6 +29,9 @@ Route::post('/dashboard', [DashboardController::class, 'createAlbum'])
 Route::get('/dashboard/{album}', [DashboardController::class, 'album'])
     ->middleware(['auth', 'verified'])->name('album.read');
 
+Route::post('/dashboard/{album}', [DashboardController::class, 'addPhotos'])
+    ->middleware(['auth', 'verified'])->name('photo.add');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
