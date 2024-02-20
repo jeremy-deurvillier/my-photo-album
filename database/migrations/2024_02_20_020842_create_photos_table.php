@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('hash', 64);
             $table->timestamps();
             $table->unsignedBigInteger('album_id');
-            $table->foreign('album_id')->references('id')->on('users');
+            $table->foreign('album_id')->references('id')->on('albums');
         });
     }
 

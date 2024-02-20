@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +20,14 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'list'])
+Route::get('/dashboard', [DashboardController::class, 'albumCollection'])
     ->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/create-album', [DashboardController::class, 'list'])
+Route::post('/dashboard', [DashboardController::class, 'createAlbum'])
     ->middleware(['auth', 'verified'])->name('album.create');
+
+Route::get('/dashboard/{album}', [DashboardController::class, 'album'])
+    ->middleware(['auth', 'verified'])->name('album.read');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
