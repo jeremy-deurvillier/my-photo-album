@@ -20,16 +20,19 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'albumCollection'])
+Route::get('/dashboard', [DashboardController::class, 'statistics'])
     ->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/dashboard', [DashboardController::class, 'createAlbum'])
+Route::get('/albums', [AlbumController::class, 'collection'])
+    ->middleware(['auth', 'verified'])->name('albums');
+
+Route::post('/albums', [AlbumController::class, 'create'])
     ->middleware(['auth', 'verified'])->name('album.create');
 
-Route::get('/dashboard/{album}', [DashboardController::class, 'album'])
+Route::get('/albums/{album}', [AlbumController::class, 'single'])
     ->middleware(['auth', 'verified'])->name('album.read');
 
-Route::post('/dashboard/{album}', [DashboardController::class, 'addPhotos'])
+Route::post('/albums/{album}', [AlbumController::class, 'addPhotos'])
     ->middleware(['auth', 'verified'])->name('photo.add');
 
 Route::middleware('auth')->group(function () {
