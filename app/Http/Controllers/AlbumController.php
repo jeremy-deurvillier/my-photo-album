@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\Photo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
@@ -17,17 +17,11 @@ class AlbumController extends Controller
             ->get()
             ->sortBy([['created_at', 'desc']]);
 
-        $photos = Photo::whereIn('album_id', $albums->pluck('id'))
-            ->take(5)
-            ->get()
-            ->sortBy([['created_at', 'desc']]);
-
         return view(
             'albums',
             [
                 'user' => $user,
                 'albums' => $albums,
-                'photos' => $photos
             ]
         );
     }
@@ -75,40 +69,37 @@ class AlbumController extends Controller
             'photos' => ['required'],
         ]);
 
-        $user = $request->user();
         $album = Album::find($albumId);
 
         foreach ($request->file('photos') as $file) {
             $photo = new Photo();
-            $path = 'public/upload-images';
+            $hashFile = hash_file('sha256', $file);
             $originalFileName = $file->getClientOriginalName();
+            $existingPhoto = $photo->photoExists($hashFile);
 
-            $photo->name = (strlen($originalFileName) > 40) 
-                ? substr($originalFileName, 0, 40) 
-                : $originalFileName;
+            if (isset($existingPhoto)) {
+                if (!$existingPhoto->photoExistsInAlbum($album->id)) {
+                    $existingPhoto->albums()->attach($album->id);
+                    $existingPhoto->albums()
+                        ->updateExistingPivot($album->id, ['created_at' => Carbon::now()])
+                    ;
+                }
+            } else {
+                $photo->original_name = substr($originalFileName, 0, 255);
+                $photo->hash = $hashFile;
 
-            $photo->album_id = $album->id;
-            $photo->hash = hash_file('sha256', $file);
-
-            Storage::putFileAs($path, $file, $photo->name);
-
-            if (Storage::exists($path . '/' . $photo->name)) {
+                $photo->saveFile($file);
                 $photo->save();
+
+                $photo = $photo->refresh();
+
+                $photo->albums()->attach($album->id);
+                $photo->albums()
+                    ->updateExistingPivot($album->id, ['created_at' => Carbon::now()])
+                ;
             }
         }
 
-        $album = $album->refresh();
-        $photos = $album->photos()
-            ->get()
-            ->sortBy([['created_at', 'desc']]);
-
-        return view(
-            'single-album',
-            [
-                'user' => $user,
-                'album' => $album,
-                'photos' => $photos
-            ]
-        );
+        return redirect('/albums/' . $album->id);
     }
 }

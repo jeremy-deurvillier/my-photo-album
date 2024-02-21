@@ -9,11 +9,13 @@ class Album extends Model
 {
     use HasFactory;
 
-    /**
-     * Get Photo Collection for Album.
-     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function photos()
     {
-        return $this->hasMany(Photo::class);
+        return $this->belongsToMany(Photo::class);
     }
 }

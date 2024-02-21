@@ -14,18 +14,17 @@ class DashboardController extends Controller
         $user = $request->user();
 
         $albums = Album::where('user_id', $user->id)
-            ->get();
-
-        $photos = Photo::whereIn('album_id', $albums->pluck('id'))
-            ->take(5)
             ->get()
-            ->count();
+            ->count()
+        ;
+
+        $photos = Photo::countAllByUser($user->id);
 
         return view(
             'dashboard',
             [
                 'user' => $user,
-                'countAlbum' => $albums->count(),
+                'countAlbum' => $albums,
                 'countPhoto' => $photos
             ]
         );

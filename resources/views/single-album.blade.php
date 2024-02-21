@@ -61,9 +61,13 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100 grid gap-4 grid-cols-3 grid-rows-3"">
                 @if (count($photos) > 0)
                         @foreach ($photos as $photo)
-                            <a href="{{ asset('uploads/' . $photo->name) }}" target="_blank" class="overflow-hidden block bg-cover">
+                            @php
+                                $explodeFileName = explode('.', $photo->original_name);
+                                $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
+                            @endphp
+                            <a href="{{ asset('uploads/' . $photo->hash . $extension) }}" target="_blank" class="overflow-hidden block bg-cover">
                                 <div>
-                                    <img src="{{ asset('uploads/' . $photo->name) }}" alt="{{ $photo->name }}" class="bg-cover" />
+                                    <img src="{{ asset('uploads/' . $photo->hash . $extension) }}" alt="{{ $photo->original_name }}" class="bg-cover" />
                                     <!-- <p>{{ $photo->name }}</p> -->
                                 </div>
                             </a>
