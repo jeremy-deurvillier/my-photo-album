@@ -9,16 +9,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    Nombre d'albums : {{ $countAlbum }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    Nombre de photos : {{ $countPhoto }}
+                    <div class="dashboard-card-container">
+                        <article class="dashboard-card">
+                            <p class="element-card">Albums</p>
+                            <p class="counter-card">{{ $countAlbum }}</p>
+                        </article>
+                        <article class="dashboard-card">
+                            <p class="element-card">Photos</p>
+                            <p class="counter-card">{{ $countPhoto }}</p>
+                        </article>
+                    </div>
                 </div>
             </div>
         </div>
