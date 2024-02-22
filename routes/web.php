@@ -35,6 +35,9 @@ Route::get('/albums/{album}', [AlbumController::class, 'single'])
 Route::post('/albums/{album}', [AlbumController::class, 'addPhotos'])
     ->middleware(['auth', 'verified'])->name('photo.add');
 
+Route::get('/photos/{photo}', [AlbumController::class, 'showPhoto'])
+    ->middleware('auth', 'verified')->name('file.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

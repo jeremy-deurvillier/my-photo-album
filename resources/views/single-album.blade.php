@@ -20,15 +20,8 @@
                     accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/svg+xml, image/x-icon"
                     multiple 
                 />
-                <!-- <x-text-input
-                    id="photos"
-                    name="photos"
-                    type="text"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Sélectionner mes photos') }}"
-                /> -->
 
-                <x-input-error :messages="$errors->photoAdd->get('title')" class="mt-2" />
+                <x-input-error :messages="$errors->photoAdd->get('photos')" class="mt-2" />
             </div>
 
             <div class="mt-6 flex justify-end">
@@ -65,7 +58,7 @@
                                 $explodeFileName = explode('.', $photo->original_name);
                                 $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
                             @endphp
-                            <a href="{{ asset('uploads/' . $photo->hash . $extension) }}" target="_blank" class="overflow-hidden block bg-cover">
+                            <a href="{{ route('file.show', ['photo' => $photo->id]) }}" target="_blank" class="overflow-hidden block bg-cover">
                                 <div>
                                     <img src="{{ asset('uploads/' . $photo->hash . $extension) }}" alt="{{ $photo->original_name }}" class="bg-cover" />
                                     <!-- <p>{{ $photo->name }}</p> -->

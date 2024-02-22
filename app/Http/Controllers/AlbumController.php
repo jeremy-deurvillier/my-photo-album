@@ -102,4 +102,16 @@ class AlbumController extends Controller
 
         return redirect('/albums/' . $album->id);
     }
+
+    public function showPhoto(Request $request, int $photoId)
+    {
+        $photo = Photo::find($photoId);
+
+        return view(
+            'single-photo',
+            [
+                'photo' => $photo
+            ]
+        );
+    }
 }

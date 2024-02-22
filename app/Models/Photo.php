@@ -61,7 +61,7 @@ class Photo extends Model
     }
 
     /**
-     * Upload photo on a server.
+     * Upload photo on the server.
      */
     public function saveFile(UploadedFile $file)
     {
