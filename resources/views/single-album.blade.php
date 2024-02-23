@@ -51,25 +51,25 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100 grid gap-4 grid-cols-3 grid-rows-3"">
-                @if (count($photos) > 0)
-                        @foreach ($photos as $photo)
-                            @php
-                                $explodeFileName = explode('.', $photo->original_name);
-                                $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
-                            @endphp
-                            <a href="{{ route('file.show', ['photo' => $photo->id]) }}" target="_blank" class="overflow-hidden block bg-cover">
-                                <div>
-                                    <img src="{{ asset('uploads/' . $photo->hash . $extension) }}" alt="{{ $photo->original_name }}" class="bg-cover" />
-                                    <!-- <p>{{ $photo->name }}</p> -->
-                                </div>
-                            </a>
-                        @endforeach
-                    @else 
-                        <div class="text-center">
-                            {{ __('Vous n\'avez aucune photo dans cet album.') }}
-                        </div>
-                    @endif
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="photo-collection">
+                        @if (count($photos) > 0)
+                            @foreach ($photos as $photo)
+                                @php
+                                    $explodeFileName = explode('.', $photo->original_name);
+                                    $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
+                                    $bg = 'background: url("' . asset('uploads/' . $photo->hash . $extension) . '") no-repeat center center';
+                                @endphp
+                                <a href="{{ route('file.show', ['photo' => $photo->id]) }}" target="_blank" class="photo-link">
+                                    <div style="{{ $bg }}"></div>
+                                </a>
+                            @endforeach
+                        @else 
+                            <div class="text-center">
+                                {{ __('Vous n\'avez aucune photo dans cet album.') }}
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

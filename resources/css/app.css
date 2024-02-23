@@ -5,7 +5,8 @@
 /** Dashboard */
 
 .dashboard-card-container,
-.album-collection {
+.album-collection,
+.photo-collection {
     display: flex;
     flex-flow: column wrap;
     justify-items: center;
@@ -84,11 +85,34 @@
     padding: 0 1.5rem;
 }
 
+/** Single album page */
+
+.photo-link {
+    --size-photo-link: 280px;
+
+    width: var(--size-photo-link);
+    min-width: var(--size-photo-link);
+    max-width: var(--size-photo-link);
+    height: var(--size-photo-link);
+    min-height: var(--size-photo-link);
+    max-height: var(--size-photo-link);
+    display: block;
+    overflow: hidden;
+    padding: .75rem;
+}
+
+.photo-link > div {
+    width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+}
+
 /**  Responsive design */
 
 @media (min-width: 640px) {
     .dashboard-card-container,
-    .album-collection {
+    .album-collection,
+    .photo-collection {
         flex-flow: row wrap;
     }
 
@@ -108,6 +132,17 @@
         height: 130px;
         min-height: 130px;
         max-height: 130px;
+    }
+
+    .photo-link {
+        --size-photo-link: 272px;
+    
+        width: var(--size-photo-link);
+        min-width: var(--size-photo-link);
+        max-width: var(--size-photo-link);
+        height: var(--size-photo-link);
+        min-height: var(--size-photo-link);
+        max-height: var(--size-photo-link);
     }
 }
 
@@ -138,12 +173,6 @@
         max-height: calc(440px / 2);
     }
 
-    .album-link {
-        height: 220px;
-        min-height: 220px;
-        max-height: 220px;
-    }
-
     .dashboard-card > .counter-card {
         font-weight: bold;
         font-size: 37px;
@@ -151,5 +180,35 @@
     
     .dashboard-card > .element-card {
         font-size: 27px;
+    }
+
+    .album-link {
+        height: 220px;
+        min-height: 220px;
+        max-height: 220px;
+    }
+
+    .photo-link {
+        --size-photo-link: 304px;
+    
+        width: var(--size-photo-link);
+        min-width: var(--size-photo-link);
+        max-width: var(--size-photo-link);
+        height: var(--size-photo-link);
+        min-height: var(--size-photo-link);
+        max-height: var(--size-photo-link);
+    }
+}
+
+@media (min-width: 1280px) {
+    .photo-link {
+        --size-photo-link: 389px;
+    
+        width: var(--size-photo-link);
+        min-width: var(--size-photo-link);
+        max-width: var(--size-photo-link);
+        height: var(--size-photo-link);
+        min-height: var(--size-photo-link);
+        max-height: var(--size-photo-link);
     }
 }
