@@ -50,18 +50,35 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    @if (count($albums) > 0)
-                        @foreach ($albums as $album)
-                            <a href="{{ route('album.read', $album->id) }}">
-                                <p>{{ $album->title }}</p>
-                                <p>{{ count($album->photos) }}</p>
-                            </a>
-                        @endforeach
-                    @else 
-                        <div class="text-center">
-                            {{ __('Vous n\'avez aucun album pour le moment.') }}
-                        </div>
-                    @endif
+                    <div class="album-collection">
+                        @if (count($albums) > 0)
+                            @foreach ($albums as $album)
+                                @php
+                                    $counter = count($album->photos);
+                                    $bg = null;
+
+                                    if ($counter > 0) {
+                                        $photo = $album->photos()->get()->shuffle()->first();
+                                        $explodeFileName = explode('.', $photo->original_name);
+                                        $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
+                                        $bg = 'background: url("' . asset('uploads/' . $photo->hash . $extension) . '") no-repeat center center';
+                                    }
+                                @endphp
+                                <a href="{{ route('album.read', $album->id) }}" class="album-link" style="{{ $bg }}">
+                                    <div>
+                                        <p class="album-title">{{ $album->title }}</p>
+                                        <p class="album-counter">
+                                            {{ $counter }} {{ ($counter > 1) ? 'photos' : 'photo' }}
+                                        </p>
+                                    </div>
+                                </a>
+                            @endforeach
+                        @else 
+                            <div class="text-center">
+                                {{ __('Vous n\'avez aucun album pour le moment.') }}
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
