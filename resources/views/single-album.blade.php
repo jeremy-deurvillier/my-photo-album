@@ -1,4 +1,5 @@
 <x-app-layout>
+    <!-- Add photos modal -->
     <x-modal name="add-photos" :show="$errors->photoAdd->isNotEmpty()" focusable>
         <form method="post" action="{{ route('photo.add', $album->id) }}" enctype="multipart/form-data" class="p-6">
             @csrf
@@ -36,16 +37,106 @@
         </form>
     </x-modal>
 
+    <!-- Update album title -->
+    <x-modal name="update-album" :show="$errors->albumUpdating->isNotEmpty()" focusable>
+        <form method="post" action="{{ route('album.update', $album->id) }}" class="p-6">
+            @csrf
+            @method('patch')
+
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Changer le titre') }}
+            </h2>
+
+            <div class="mt-6">
+                <x-input-label for="title" value="{{ __('Titre') }}" class="sr-only" />
+
+                <x-text-input
+                    id="title"
+                    name="title"
+                    type="text"
+                    class="mt-1 block w-3/4"
+                    placeholder="{{ __('Titre') }}"
+                />
+
+                <x-input-error :messages="$errors->albumUpdating->get('title')" class="mt-2" />
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-primary-button class="ms-3">
+                    {{ __('Update Album') }}
+                </x-primary-button>
+            </div>
+        </form>
+    </x-modal>
+
+    <!-- Delete album modal -->
+    <x-modal name="confirm-album-deletion" :show="$errors->albumDeletion->isNotEmpty()" focusable>
+        <form method="post" action="{{ route('album.delete', $album->id) }}" class="p-6">
+            @csrf
+            @method('delete')
+
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Are you sure you want to delete album "' . $album->title . '" ?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Once your album is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your album.') }}
+            </p>
+
+            <div class="mt-6">
+                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+
+                <x-text-input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="mt-1 block w-3/4"
+                    placeholder="{{ __('Password') }}"
+                />
+
+                <x-input-error :messages="$errors->albumDeletion->get('password')" class="mt-2" />
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ms-3">
+                    {{ __('Delete Album') }}
+                </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __($album->title) . ' (' . count($photos) . ')' }}
         </h2>
-        <x-primary-button 
-            x-data=""
-            x-on:click.prevent="$dispatch('open-modal', 'add-photos')"
-        >
-            {{ __('Ajouter') }}
-        </x-primary-button>
+        <div>
+            <x-primary-button 
+                x-data=""
+                x-on:click.prevent="$dispatch('open-modal', 'add-photos')"
+            >
+                {{ __('Ajouter') }}
+            </x-primary-button>
+            <x-secondary-button 
+                x-data=""
+                x-on:click.prevent="$dispatch('open-modal', 'update-album')"
+            >
+                {{ __('Changer le titre') }}
+            </x-secondary-button>
+            <x-danger-button 
+                x-data=""
+                x-on:click.prevent="$dispatch('open-modal', 'confirm-album-deletion')"
+            >
+                {{ __('Supprimer') }}
+            </x-danger-button>
+        </div>
     </x-slot>
 
     <div class="py-12">

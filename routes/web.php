@@ -29,6 +29,12 @@ Route::get('/albums', [AlbumController::class, 'collection'])
 Route::post('/albums', [AlbumController::class, 'create'])
     ->middleware(['auth', 'verified'])->name('album.create');
 
+Route::patch('/albums/{album}', [AlbumController::class, 'update'])
+    ->middleware(['auth', 'verified'])->name('album.update');
+
+Route::delete('/albums/{album}', [AlbumController::class, 'delete'])
+    ->middleware(['auth', 'verified'])->name('album.delete');
+
 Route::get('/albums/{album}', [AlbumController::class, 'single'])
     ->middleware(['auth', 'verified'])->name('album.read');
 

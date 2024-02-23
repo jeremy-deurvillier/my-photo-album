@@ -71,4 +71,28 @@ class Photo extends Model
 
         Storage::putFileAs($path, $file, $this->hash . $extension);
     }
+
+    /**
+     * Count the number of times a photo appears in albums.
+     */
+    public function inAnotherAlbum()
+    {
+        return DB::table('album_photo', 'ap')
+            ->where('photo_id', '=', $this->id)
+            ->get()
+            ->count()
+        ;
+    }
+
+    /**
+     * Delete photo on the server.
+     */
+    public function deleteFile()
+    {
+        $path = 'public/upload-images/';
+        $explodeFileName = explode('.', $this->original_name);
+        $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
+
+        Storage::delete($path . $this->hash . $extension);
+    }
 }

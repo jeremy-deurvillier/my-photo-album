@@ -114,4 +114,45 @@ class AlbumController extends Controller
             ]
         );
     }
+
+    public function update(Request $request, int $albumId)
+    {
+        $request->validateWithBag('albumUpdating', [
+            'title' => ['required'],
+        ]);
+
+        $album = Album::find($albumId);
+
+        $album->title = $request->title;
+        $album->updated_at = Carbon::now();
+
+        $album->save();
+        $album->refresh();
+
+        return redirect('/albums/' . $album->id);
+    }
+
+    public function delete(Request $request, int $albumId)
+    {
+        $request->validateWithBag('albumDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $album = Album::find($albumId);
+        $photosDeleted = $album->photos()->get();
+
+        $album->photos()->detach();
+        Album::destroy($albumId);
+
+        $photosDeleted->map(function($photo) {
+            $count = $photo->inAnotherAlbum();
+
+            if ($count === 0) {
+                $photo->deleteFile();
+                Photo::destroy($photo->id);
+            }
+        });
+
+        return redirect('/albums');
+    }
 }
