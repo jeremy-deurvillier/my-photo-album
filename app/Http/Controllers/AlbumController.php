@@ -13,9 +13,7 @@ class AlbumController extends Controller
     {
         $user = $request->user();
 
-        $albums = Album::where('user_id', $user->id)
-            ->get()
-            ->sortBy([['created_at', 'desc']]);
+        $albums = Album::getMyAlbums($user->id);
 
         return view(
             'albums',
@@ -139,19 +137,10 @@ class AlbumController extends Controller
         ]);
 
         $album = Album::find($albumId);
-        $photosDeleted = $album->photos()->get();
 
-        $album->photos()->detach();
-        Album::destroy($albumId);
+        $album->deleted_at = Carbon::now();
 
-        $photosDeleted->map(function($photo) {
-            $count = $photo->inAnotherAlbum();
-
-            if ($count === 0) {
-                $photo->deleteFile();
-                Photo::destroy($photo->id);
-            }
-        });
+        $album->save();
 
         return redirect('/albums');
     }

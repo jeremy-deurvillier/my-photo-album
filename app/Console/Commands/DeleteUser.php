@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Album;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,14 +15,14 @@ class DeleteUser extends Command
      *
      * @var string
      */
-    protected $signature = 'db:deluser {email}';
+    protected $signature = 'mpa:deluser {email}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Add user to delete';
 
     /**
      * Execute the console command.
@@ -42,9 +44,17 @@ class DeleteUser extends Command
         $user = User::where('email', $this->argument('email'))->first();
 
         if ($user) {
-            $user->delete();
+            $user->albums()->get()->map(function ($album) {
+                $album->deleted_at = Carbon::now();
 
-            $this->info('User with email "' . $this->argument('email') . '" is deleted.');
+                $album->save();
+            });
+
+            $user->deleted_at = Carbon::now();
+
+            $user->save();
+
+            $this->info('User with email "' . $this->argument('email') . '" will be delete.');
         }
     }
 }

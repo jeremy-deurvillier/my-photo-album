@@ -25,7 +25,7 @@ class Photo extends Model
      */
     static public function countAllByUser(int $userId)
     {
-        $albums = Album::where('user_id', $userId)->get();
+        $albums = Album::getMyAlbums($userId);
 
         return DB::table('album_photo', 'ap')
             ->whereIn('album_id', $albums->pluck('id'))

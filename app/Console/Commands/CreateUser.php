@@ -17,7 +17,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'db:adduser {email}';
+    protected $signature = 'mpa:adduser {email}';
 
     /**
      * The console command description.
