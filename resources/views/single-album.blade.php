@@ -20,6 +20,7 @@
                     placeholder="{{ __('Sélectionner mes photos') }}" 
                     accept="image/jpeg, image/png, image/gif, image/bmp, image/webp, image/svg+xml, image/x-icon"
                     multiple 
+                    webkitdirectory directory
                 />
 
                 <x-input-error :messages="$errors->photoAdd->get('photos')" class="mt-2" />

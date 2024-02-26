@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -63,13 +62,13 @@ class Photo extends Model
     /**
      * Upload photo on the server.
      */
-    public function saveFile(UploadedFile $file)
+    public function saveFile(string $oldPath)
     {
-        $path = 'public/upload-images';
+        $path = 'public/uploaded-images/';
         $explodeFileName = explode('.', $this->original_name);
         $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
 
-        Storage::putFileAs($path, $file, $this->hash . $extension);
+        Storage::move($oldPath, $path . $this->hash . $extension);
     }
 
     /**
@@ -89,7 +88,7 @@ class Photo extends Model
      */
     public function deleteFile()
     {
-        $path = 'public/upload-images/';
+        $path = 'public/uploaded-images/';
         $explodeFileName = explode('.', $this->original_name);
         $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
 

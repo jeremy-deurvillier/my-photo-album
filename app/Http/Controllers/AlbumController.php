@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\UploadedFileManager;
 use App\Models\Album;
 use App\Models\Photo;
 use Carbon\Carbon;
@@ -68,35 +69,18 @@ class AlbumController extends Controller
         ]);
 
         $album = Album::find($albumId);
+        $filePaths = [];
 
         foreach ($request->file('photos') as $file) {
-            $photo = new Photo();
-            $hashFile = hash_file('sha256', $file);
-            $originalFileName = $file->getClientOriginalName();
-            $existingPhoto = $photo->photoExists($hashFile);
+            $datasFile = [];
 
-            if (isset($existingPhoto)) {
-                if (!$existingPhoto->photoExistsInAlbum($album->id)) {
-                    $existingPhoto->albums()->attach($album->id);
-                    $existingPhoto->albums()
-                        ->updateExistingPivot($album->id, ['created_at' => Carbon::now()])
-                    ;
-                }
-            } else {
-                $photo->original_name = substr($originalFileName, 0, 255);
-                $photo->hash = $hashFile;
+            $datasFile['path'] = $file->store('public/temp_images');
+            $datasFile['original_name'] = $file->getClientOriginalName();
 
-                $photo->saveFile($file);
-                $photo->save();
+            $filePaths[] = $datasFile;
+        };
 
-                $photo = $photo->refresh();
-
-                $photo->albums()->attach($album->id);
-                $photo->albums()
-                    ->updateExistingPivot($album->id, ['created_at' => Carbon::now()])
-                ;
-            }
-        }
+        UploadedFileManager::dispatch($filePaths, $album);
 
         return redirect('/albums/' . $album->id);
     }
@@ -125,7 +109,6 @@ class AlbumController extends Controller
         $album->updated_at = Carbon::now();
 
         $album->save();
-        $album->refresh();
 
         return redirect('/albums/' . $album->id);
     }
