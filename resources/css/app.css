@@ -87,6 +87,10 @@
 
 /** Single album page */
 
+.album-actions-group > button {
+    margin-left: 5px;
+}
+
 .photo-link {
     --size-photo-link: 280px;
 

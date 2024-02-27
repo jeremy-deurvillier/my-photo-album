@@ -38,19 +38,28 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Mes Albums') }}
         </h2>
-        <x-primary-button 
-            x-data=""
-            x-on:click.prevent="$dispatch('open-modal', 'create-album')"
-        >
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
-                <title>add</title>
-                <path d="M18.984 12.984h-6v6h-1.969v-6h-6v-1.969h6v-6h1.969v6h6v1.969z"></path>
-            </svg>
-            {{ __('Créer') }}
-        </x-primary-button>
     </x-slot>
 
-    <div class="py-12">
+    <div class="pt-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="flex justify-end p-2 text-gray-900 dark:text-gray-100">
+                    <x-primary-button 
+                        x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'create-album')"
+                    >
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
+                            <title>add</title>
+                            <path d="M18.984 12.984h-6v6h-1.969v-6h-6v-1.969h6v-6h1.969v6h6v1.969z"></path>
+                        </svg>
+                        <span>{{ __('Créer') }}</span>
+                    </x-primary-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">

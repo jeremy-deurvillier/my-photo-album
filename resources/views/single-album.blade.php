@@ -118,41 +118,48 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __($album->title) . ' (' . count($photos) . ')' }}
         </h2>
-        <div>
-            <x-primary-button 
-                x-data=""
-                x-on:click.prevent="$dispatch('open-modal', 'add-photos')"
-            >
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
-                    <title>add</title>
-                    <path d="M18.984 12.984h-6v6h-1.969v-6h-6v-1.969h6v-6h1.969v6h6v1.969z"></path>
-                </svg>
-                {{ __('Ajouter') }}
-            </x-primary-button>
-            <x-secondary-button 
-                x-data=""
-                x-on:click.prevent="$dispatch('open-modal', 'update-album')"
-            >
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
-                    <title>edit</title>
-                    <path d="M20.719 7.031l-1.828 1.828-3.75-3.75 1.828-1.828q0.281-0.281 0.703-0.281t0.703 0.281l2.344 2.344q0.281 0.281 0.281 0.703t-0.281 0.703zM3 17.25l11.063-11.063 3.75 3.75-11.063 11.063h-3.75v-3.75z"></path>
-                </svg>
-                {{ __('Changer le titre') }}
-            </x-secondary-button>
-            <x-danger-button 
-                x-data=""
-                x-on:click.prevent="$dispatch('open-modal', 'confirm-album-deletion')"
-            >
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
-                    <title>delete</title>
-                    <path d="M15.516 3.984h3.469v2.016h-13.969v-2.016h3.469l1.031-0.984h4.969zM8.438 11.859l2.156 2.156-2.109 2.109 1.406 1.406 2.109-2.109 2.109 2.109 1.406-1.406-2.109-2.109 2.109-2.156-1.406-1.406-2.109 2.156-2.109-2.156zM6 18.984v-12h12v12q0 0.797-0.609 1.406t-1.406 0.609h-7.969q-0.797 0-1.406-0.609t-0.609-1.406z"></path>
-                </svg>
-                {{ __('Supprimer') }}
-            </x-danger-button>
-        </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="pt-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="album-actions-group flex justify-end p-2 text-gray-900 dark:text-gray-100">
+                    <x-primary-button 
+                        x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'add-photos')"
+                    >
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
+                            <title>add</title>
+                            <path d="M18.984 12.984h-6v6h-1.969v-6h-6v-1.969h6v-6h1.969v6h6v1.969z"></path>
+                        </svg>
+                        <span class="hidden sm:block">{{ __('Ajouter') }}</span>
+                    </x-primary-button>
+                    <x-secondary-button 
+                        x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'update-album')"
+                    >
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
+                            <title>edit</title>
+                            <path d="M20.719 7.031l-1.828 1.828-3.75-3.75 1.828-1.828q0.281-0.281 0.703-0.281t0.703 0.281l2.344 2.344q0.281 0.281 0.281 0.703t-0.281 0.703zM3 17.25l11.063-11.063 3.75 3.75-11.063 11.063h-3.75v-3.75z"></path>
+                        </svg>
+                        <span class="hidden sm:block">{{ __('Changer le titre') }}</span>
+                    </x-secondary-button>
+                    <x-danger-button 
+                        x-data=""
+                        x-on:click.prevent="$dispatch('open-modal', 'confirm-album-deletion')"
+                    >
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
+                            <title>delete</title>
+                            <path d="M15.516 3.984h3.469v2.016h-13.969v-2.016h3.469l1.031-0.984h4.969zM8.438 11.859l2.156 2.156-2.109 2.109 1.406 1.406 2.109-2.109 2.109 2.109 1.406-1.406-2.109-2.109 2.109-2.156-1.406-1.406-2.109 2.156-2.109-2.156zM6 18.984v-12h12v12q0 0.797-0.609 1.406t-1.406 0.609h-7.969q-0.797 0-1.406-0.609t-0.609-1.406z"></path>
+                        </svg>
+                        <span class="hidden sm:block">{{ __('Supprimer') }}</span>
+                    </x-danger-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
