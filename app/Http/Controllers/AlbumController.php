@@ -47,7 +47,10 @@ class AlbumController extends Controller
     public function single(Request $request, int $albumId)
     {
         $user = $request->user();
-        $album = Album::find($albumId);
+        $album = Album::findOrFail($albumId)
+            ->whereNull('deleted_at')
+            ->firstOrFail()
+        ;
         $photos = $album->photos()
             ->get()
             ->sortBy([['created_at', 'desc']]);
@@ -87,7 +90,7 @@ class AlbumController extends Controller
 
     public function showPhoto(Request $request, int $photoId)
     {
-        $photo = Photo::find($photoId);
+        $photo = Photo::findOrFail($photoId);
 
         return view(
             'single-photo',
