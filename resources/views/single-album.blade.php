@@ -1,7 +1,7 @@
 <x-app-layout>
     <!-- Add photos modal -->
     <x-modal name="add-photos" :show="$errors->photoAdd->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('photo.add', $album->id) }}" enctype="multipart/form-data" class="p-6">
+        <form method="post" action="{{ route('photos.add', $album->id) }}" enctype="multipart/form-data" class="p-6">
             @csrf
             @method('post')
 
@@ -57,6 +57,7 @@
                     type="text"
                     class="mt-1 block w-3/4"
                     placeholder="{{ __('Titre') }}"
+                    value="{{ $album->title }}"
                 />
 
                 <x-input-error :messages="$errors->albumUpdating->get('title')" class="mt-2" />
@@ -171,6 +172,41 @@
                                     $extension = '.' . $explodeFileName[count($explodeFileName) - 1];
                                     $bg = 'background: url("' . asset('uploads/' . $photo->hash . $extension) . '") no-repeat center center';
                                 @endphp
+                                <!-- Delete photo modal -->
+                                <x-modal name="confirm-photo-{{ $photo->id }}-deletion" :show="$errors->photoDeletion->isNotEmpty()" focusable>
+                                    <form method="post" action="{{ route('photo.delete', $album->id) }}" class="p-6">
+                                        @csrf
+                                        @method('delete')
+
+                                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                            {{ __('Are you sure you want to delete photo "' . $photo->original_name . '" ?') }}
+                                        </h2>
+
+                                        <div class="mt-6">
+
+                                            <x-text-input
+                                                id="photo"
+                                                name="photo"
+                                                type="hidden"
+                                                class="mt-1 block w-3/4"
+                                                value="{{ $photo->id }}"
+                                            />
+
+                                            <x-input-error :messages="$errors->photoDeletion->get('photo')" class="mt-2" />
+                                        </div>
+
+                                        <div class="mt-6 flex justify-end">
+                                            <x-secondary-button x-on:click="$dispatch('close')">
+                                                {{ __('Cancel') }}
+                                            </x-secondary-button>
+
+                                            <x-danger-button class="ms-3">
+                                                {{ __('Delete Photo') }}
+                                            </x-danger-button>
+                                        </div>
+                                    </form>
+                                </x-modal>
+
                                 <div class="photo-link overflow-hidden">
                                     <div style="{{ $bg }}">
                                         <div class="buttons-group flex flex-col items-center justify-between w-20 h-full overflow-hidden p-2">
@@ -189,7 +225,10 @@
                                                 </x-photo-button>
                                             </div>
                                             <div class="grid">
-                                                <x-photo-danger-button>
+                                                <x-photo-danger-button
+                                                    x-data=""
+                                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-photo-{{ $photo->id }}-deletion')"
+                                                >
                                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
                                                         <title>delete</title>
                                                         <path d="M15.516 3.984h3.469v2.016h-13.969v-2.016h3.469l1.031-0.984h4.969zM8.438 11.859l2.156 2.156-2.109 2.109 1.406 1.406 2.109-2.109 2.109 2.109 1.406-1.406-2.109-2.109 2.109-2.156-1.406-1.406-2.109 2.156-2.109-2.156zM6 18.984v-12h12v12q0 0.797-0.609 1.406t-1.406 0.609h-7.969q-0.797 0-1.406-0.609t-0.609-1.406z"></path>

@@ -39,10 +39,13 @@ Route::get('/albums/{album}', [AlbumController::class, 'single'])
     ->middleware(['auth', 'verified'])->name('album.read');
 
 Route::post('/albums/{album}', [AlbumController::class, 'addPhotos'])
-    ->middleware(['auth', 'verified'])->name('photo.add');
+    ->middleware(['auth', 'verified'])->name('photos.add');
 
 Route::get('/photos/{photo}', [AlbumController::class, 'showPhoto'])
     ->middleware('auth', 'verified')->name('file.show');
+
+Route::delete('/photos/{photo}', [AlbumController::class, 'deletePhoto'])
+    ->middleware(['auth', 'verified'])->name('photo.delete');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

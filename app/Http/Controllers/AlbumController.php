@@ -97,6 +97,27 @@ class AlbumController extends Controller
         );
     }
 
+    public function deletePhoto(Request $request, int $albumId)
+    {
+        $request->validateWithBag('photoDeletion', [
+            'photo' => ['required'],
+        ]);
+
+        $album = Album::find($albumId);
+        $photo = Photo::find($request->photo);
+
+        $album->photos()->detach($photo->id);
+
+        $count = $photo->inAnotherAlbum();
+
+        if ($count === 0) {
+            $photo->deleteFile();
+            Photo::destroy($photo->id);
+        }
+
+        return redirect('/albums/' . $album->id);
+    }
+
     public function update(Request $request, int $albumId)
     {
         $request->validateWithBag('albumUpdating', [
