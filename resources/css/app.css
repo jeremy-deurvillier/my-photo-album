@@ -107,6 +107,28 @@
     border-radius: .5rem;
 }
 
+.photo-link:hover .buttons-group {
+    opacity: 1;
+}
+
+.buttons-group {
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: .4s opacity;
+}
+
+.buttons-group button {
+    font-size: 14px;
+}
+
+.buttons-group > div:first-of-type > a {
+    margin-bottom: 5px;
+}
+
+.buttons-group > div:last-child > a {
+    margin-top: 5px;
+}
+
 /**  Responsive design */
 
 @media (min-width: 640px) {
