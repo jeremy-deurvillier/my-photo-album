@@ -211,7 +211,7 @@
                                     <div style="{{ $bg }}">
                                         <div class="buttons-group flex flex-col items-center justify-between w-20 h-full overflow-hidden p-2">
                                             <div class="grid">
-                                                <x-photo-button href="{{ route('file.show', ['photo' => $photo->id]) }}" target="_blank">
+                                                <x-photo-button href="{{ route('photo.show', ['photo' => $photo->id]) }}" target="_blank">
                                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
                                                         <title>open</title>
                                                         <path d="M21 11.016v-8.016h-8.016l3.328 3.281-10.031 10.031-3.281-3.328v8.016h8.016l-3.328-3.281 10.031-10.031z"></path>

@@ -47,10 +47,12 @@ class AlbumController extends Controller
     public function single(Request $request, int $albumId)
     {
         $user = $request->user();
-        $album = Album::findOrFail($albumId)
-            ->whereNull('deleted_at')
-            ->firstOrFail()
-        ;
+        $album = Album::findOrFail($albumId);
+
+        if ($album->deleted_at !== null) {
+            abort(404);
+        }
+
         $photos = $album->photos()
             ->get()
             ->sortBy([['created_at', 'desc']]);
@@ -84,39 +86,6 @@ class AlbumController extends Controller
         };
 
         UploadedFileManager::dispatch($filePaths, $album);
-
-        return redirect('/albums/' . $album->id);
-    }
-
-    public function showPhoto(Request $request, int $photoId)
-    {
-        $photo = Photo::findOrFail($photoId);
-
-        return view(
-            'single-photo',
-            [
-                'photo' => $photo
-            ]
-        );
-    }
-
-    public function deletePhoto(Request $request, int $albumId)
-    {
-        $request->validateWithBag('photoDeletion', [
-            'photo' => ['required'],
-        ]);
-
-        $album = Album::find($albumId);
-        $photo = Photo::find($request->photo);
-
-        $album->photos()->detach($photo->id);
-
-        $count = $photo->inAnotherAlbum();
-
-        if ($count === 0) {
-            $photo->deleteFile();
-            Photo::destroy($photo->id);
-        }
 
         return redirect('/albums/' . $album->id);
     }

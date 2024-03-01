@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,22 +30,28 @@ Route::get('/albums', [AlbumController::class, 'collection'])
 Route::post('/albums', [AlbumController::class, 'create'])
     ->middleware(['auth', 'verified'])->name('album.create');
 
-Route::patch('/albums/{album}', [AlbumController::class, 'update'])
-    ->middleware(['auth', 'verified'])->name('album.update');
-
-Route::delete('/albums/{album}', [AlbumController::class, 'delete'])
-    ->middleware(['auth', 'verified'])->name('album.delete');
-
 Route::get('/albums/{album}', [AlbumController::class, 'single'])
+    ->whereNumber('album')
     ->middleware(['auth', 'verified'])->name('album.read');
 
 Route::post('/albums/{album}', [AlbumController::class, 'addPhotos'])
+    ->whereNumber('album')
     ->middleware(['auth', 'verified'])->name('photos.add');
 
-Route::get('/photos/{photo}', [AlbumController::class, 'showPhoto'])
-    ->middleware('auth', 'verified')->name('file.show');
+Route::patch('/albums/{album}', [AlbumController::class, 'update'])
+    ->whereNumber('album')
+    ->middleware(['auth', 'verified'])->name('album.update');
 
-Route::delete('/photos/{photo}', [AlbumController::class, 'deletePhoto'])
+Route::delete('/albums/{album}', [AlbumController::class, 'delete'])
+    ->whereNumber('album')
+    ->middleware(['auth', 'verified'])->name('album.delete');
+
+Route::get('/photos/{photo}', [PhotoController::class, 'show'])
+    ->whereNumber('photo')
+    ->middleware('auth', 'verified')->name('photo.show');
+
+Route::delete('/photos/{photo}', [PhotoController::class, 'delete'])
+    ->whereNumber('photo')
     ->middleware(['auth', 'verified'])->name('photo.delete');
 
 Route::middleware('auth')->group(function () {
