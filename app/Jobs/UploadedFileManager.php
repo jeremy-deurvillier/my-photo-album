@@ -72,6 +72,8 @@ class UploadedFileManager implements ShouldQueue
                 $photo->albums()
                     ->updateExistingPivot($album->id, ['created_at' => Carbon::now()])
                 ;
+
+                SearchTags::dispatch($photo);
             }
         }
 
