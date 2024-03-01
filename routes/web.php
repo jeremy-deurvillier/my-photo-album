@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,9 @@ Route::get('/photos/{photo}', [PhotoController::class, 'show'])
 Route::delete('/photos/{photo}', [PhotoController::class, 'delete'])
     ->whereNumber('photo')
     ->middleware(['auth', 'verified'])->name('photo.delete');
+
+Route::get('/gallery', [GalleryController::class, 'show'])
+    ->middleware('auth', 'verified')->name('gallery');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
