@@ -84,6 +84,18 @@ class Photo extends Model
     }
 
     /**
+     * Get shared photos.
+     */
+    static public function getShared()
+    {
+        return Photo::all()
+            ->whereNotNull('shared_at')
+            ->sortBy(['shared_at', 'desc'])
+            ->slice(0, 100)
+        ;
+    }
+
+    /**
      * Delete photo on the server.
      */
     public function deleteFile()

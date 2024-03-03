@@ -75,9 +75,8 @@
             </ul>
         </nav>
 
-        <div id="gallery">
-            <img src="{{ asset('storage/90198.jpg') }}" alt="Default Image" id="currentImage" />
-        </div>
-        <div id="list" x-data="$store.gallery.list" x-init="$store.gallery.createThumbnails()"></div>
+        <div id="gallery"></div>
+
+        <div id="list" x-data="$store.gallery.list" x-init="$store.gallery.getList()"></div>
     </body>
 </html>

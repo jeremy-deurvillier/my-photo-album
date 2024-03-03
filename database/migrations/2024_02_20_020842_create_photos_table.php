@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('hash', 64); // Name of file on a server
             $table->string('original_name', 255);
+            $table->timestamp('shared_at')->nullable();
             $table->timestamps();
         });
     }

@@ -1,8 +1,6 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
 
-console.log('ok');
-
 /**
  * Tooltip manager
  */
@@ -26,17 +24,24 @@ Alpine.store('tooltip', {
  */
 Alpine.store('gallery', {
     list: [
-        {hash: '4944', original_name: '4944.jpg'},
         {hash: '90198', original_name: '90198.jpg'},
     ],
 
     current: null,
 
-    getList() {},
+    async getList() {
+        await window.axios.get('/api/gallery', {withCredentials: true})
+        .then((response) => {
+            if (response.data.length > 0) this.list = response.data;
+
+            this.createThumbnails();
+        })
+        .catch((error) => {
+            console.error('Error : ', error);
+        });
+    },
 
     createThumbnails() {
-        const _self = this;
-
         this.list.map((thumb, item) => {
             let wrapper = document.createElement('div');
             let img = document.createElement('img');
@@ -46,7 +51,7 @@ Alpine.store('gallery', {
             wrapper.setAttribute('x-on:click', '$store.gallery.setCurrent(' + item + ')');
 
             img.setAttribute('class', 'thumbnail');
-            img.setAttribute('src', 'storage/' + thumb.hash + extension);
+            img.setAttribute('src', 'uploads/' + thumb.hash + extension);
             img.setAttribute('alt', thumb.original_name)
 
             wrapper.appendChild(img);
@@ -75,7 +80,7 @@ Alpine.store('gallery', {
             photo = this.current;
             extension = '.' + photo.original_name.split('.')[1];
 
-            tag.setAttribute('src', 'storage/' + photo.hash + extension);
+            tag.setAttribute('src', 'uploads/' + photo.hash + extension);
             tag.setAttribute('alt', photo.original_name);
             tag.setAttribute('id', 'currentImage');
 
