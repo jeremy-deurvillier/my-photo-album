@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\Photo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PhotoController extends Controller
@@ -18,6 +19,32 @@ class PhotoController extends Controller
                 'photo' => $photo
             ]
         );
+    }
+
+    public function share(Request $request, int $albumId, int $photoId)
+    {
+        $photo = Photo::find($photoId);
+
+        if ($photo) {
+            $photo->shared_at = Carbon::now();
+
+            $photo->save();
+        }
+
+        return redirect('/albums/' . $albumId);
+    }
+
+    public function unshare(Request $request, int $albumId, int $photoId)
+    {
+        $photo = Photo::find($photoId);
+
+        if ($photo) {
+            $photo->shared_at = null;
+
+            $photo->save();
+        }
+
+        return redirect('/albums/' . $albumId);
     }
 
     public function delete(Request $request, int $albumId)

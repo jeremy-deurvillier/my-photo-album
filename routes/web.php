@@ -51,6 +51,14 @@ Route::get('/photos/{photo}', [PhotoController::class, 'show'])
     ->whereNumber('photo')
     ->middleware('auth', 'verified')->name('photo.show');
 
+Route::get('/albums/{album}/photos/{photo}/share', [PhotoController::class, 'share'])
+    ->whereNumber(['album', 'photo'])
+    ->middleware('auth', 'verified')->name('photo.share');
+
+Route::get('/albums/{album}/photos/{photo}/unshare', [PhotoController::class, 'unshare'])
+    ->whereNumber(['album', 'photo'])
+    ->middleware('auth', 'verified')->name('photo.unshare');
+
 Route::delete('/photos/{photo}', [PhotoController::class, 'delete'])
     ->whereNumber('photo')
     ->middleware(['auth', 'verified'])->name('photo.delete');
