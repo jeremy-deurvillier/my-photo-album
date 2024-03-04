@@ -70,7 +70,11 @@ class AlbumController extends Controller
     public function addPhotos(Request $request, int $albumId)
     {
         $request->validateWithBag('photoAdd', [
-            'photos' => ['required'],
+            'photos' => [
+                'required',
+                'array',
+                // 'mimes: jpeg,jpg,png,gif,bmp,webp,svg,x-icon'
+            ],
         ]);
 
         $album = Album::find($albumId);

@@ -32,7 +32,9 @@ Alpine.store('gallery', {
     async getList() {
         await window.axios.get('/api/gallery', {withCredentials: true})
         .then((response) => {
-            if (response.data.length > 0) this.list = response.data;
+            if (Object.values(response.data).length > 0) {
+                this.list = Object.values(response.data);
+            }
 
             this.createThumbnails();
         })
