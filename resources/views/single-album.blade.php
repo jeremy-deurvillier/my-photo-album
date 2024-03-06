@@ -125,6 +125,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="album-actions-group flex justify-end p-2 text-gray-900 dark:text-gray-100">
+                    <!-- Add photos v1 -->
                     <x-primary-button 
                         x-data=""
                         x-on:click.prevent="$dispatch('open-modal', 'add-photos')"
@@ -135,6 +136,14 @@
                         </svg>
                         <span class="hidden sm:block">{{ __('Ajouter') }}</span>
                     </x-primary-button>
+                    <!-- Add photos current version -->
+                    <a href="{{ route('uploader.show', $album->id) }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 ml-1">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current">
+                            <title>add</title>
+                            <path d="M18.984 12.984h-6v6h-1.969v-6h-6v-1.969h6v-6h1.969v6h6v1.969z"></path>
+                        </svg>
+                        <span class="hidden sm:block">{{ __('Ajouter') }}</span>
+                    </a>
                     <x-secondary-button 
                         x-data=""
                         x-on:click.prevent="$dispatch('open-modal', 'update-album')"

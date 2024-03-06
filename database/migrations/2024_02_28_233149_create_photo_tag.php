@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('photo_id')->references('id')->on('photos');
             $table->unsignedBigInteger('tag_id');
             $table->foreign('tag_id')->references('id')->on('tags');
-            $table->timestamps();
+            $table->timestamp('created_at');
         });
     }
 

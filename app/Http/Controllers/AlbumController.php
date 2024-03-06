@@ -80,14 +80,14 @@ class AlbumController extends Controller
         $album = Album::find($albumId);
         $filePaths = [];
 
-        foreach ($request->file('photos') as $file) {
-            $datasFile = [];
+        // foreach ($request->file('photos') as $file) {
+        //     $datasFile = [];
 
-            $datasFile['path'] = $file->store('public/temp_images');
-            $datasFile['original_name'] = $file->getClientOriginalName();
+        //     $datasFile['path'] = $file->store('public/temp_images');
+        //     $datasFile['original_name'] = $file->getClientOriginalName();
 
-            $filePaths[] = $datasFile;
-        };
+        //     $filePaths[] = $datasFile;
+        // };
 
         UploadedFileManager::dispatch($filePaths, $album);
 

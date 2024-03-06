@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UploaderFileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,10 @@ Route::get('/albums/{album}', [AlbumController::class, 'single'])
 Route::post('/albums/{album}', [AlbumController::class, 'addPhotos'])
     ->whereNumber('album')
     ->middleware(['auth', 'verified'])->name('photos.add');
+
+Route::get('/albums/{album}/uploader/', [UploaderFileController::class, 'show'])
+    ->whereNumber('album')
+    ->middleware(['auth', 'verified'])->name('uploader.show');
 
 Route::patch('/albums/{album}', [AlbumController::class, 'update'])
     ->whereNumber('album')
